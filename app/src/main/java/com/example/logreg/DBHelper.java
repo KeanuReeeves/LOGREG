@@ -12,15 +12,15 @@ import java.util.concurrent.CountDownLatch;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DB_VERSION=1;
-    public static final String DB_NAME="reg.db";
+    public static final String DB_NAME="logreg.db";
 
-    public static final String USER_TABLE="reg";
+    public static final String USER_TABLE="USER";
 
     public static final String COL_ID="id";
     public static final String COL_EMAIL="email";
     public static final String COL_FELNEV="nev";
     public static final String COL_JELSZO="jelszo";
-    public static final String COL_FULLNAME="teljes név";
+    public static final String COL_FULLNAME="teljes_nev";
 
 
     public DBHelper( Context context) {
@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
             COL_EMAIL+" VARCHAR(255) NOT NULL UNIQUE,"+
             COL_FELNEV+ " VARCHAR(255) NOT NULL UNIQUE,"+
             COL_JELSZO+" VARCHAR(255) NOT NULL,"+
-            COL_FULLNAME+"VARCHAR(255) NOT NULL"+
+            COL_FULLNAME+" VARCHAR(255) NOT NULL"+
             ")";
 
     db.execSQL(sql);
