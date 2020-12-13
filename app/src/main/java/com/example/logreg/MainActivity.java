@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText felnev,jelszo;
     private Button login,signup;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                login();
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
@@ -37,9 +39,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void adatelenorzes()
+    private void login()
     {
-
+        if (db.adatellenorzes(felnev.getText().toString(),jelszo.getText().toString()))
+        {
+            Intent login = new Intent(MainActivity.this,LoggedInActivity.class);
+            startActivity(login);
+            finish();
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this,"Sikertelen bejelentkezés",Toast.LENGTH_SHORT).show();
+        }
     }
     private void init() {
         felnev=findViewById(R.id.FelNev_ET);
@@ -47,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         login=findViewById(R.id.Log_in_btn);
         signup=findViewById(R.id.Sign_up_btn);
+
+        db=new DBHelper(MainActivity.this);
     }
 
 }

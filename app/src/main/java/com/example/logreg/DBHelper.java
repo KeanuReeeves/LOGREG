@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.concurrent.CountDownLatch;
 
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -58,12 +59,46 @@ public class DBHelper extends SQLiteOpenHelper {
         return result!=-1;
     }
 
+    public boolean adatellenorzes(String nev,String jelszo)
+    {
+        boolean l=false;
 
-
-    public Cursor adatLekerdezes(){
-      //  String nev="' 1 = 1 -- ";
+        if (nevEllenoriz(nev))
+        {
+            SQLiteDatabase db= this.getWritableDatabase();
+            Cursor result= db.rawQuery("SELECT jelszo FROM "+USER_TABLE+" WHERE "+COL_FELNEV+" = ?",new String[]{nev});
+            if (result.equals(jelszo))
+            {
+                l=true;
+            }
+        }
+        if (emeilEllenoriz(nev))
+        {
+            SQLiteDatabase db= this.getWritableDatabase();
+            Cursor result= db.rawQuery("SELECT jelszo FROM "+USER_TABLE+" WHERE "+COL_EMAIL+" = ?",new String[]{nev});
+            if (result.equals(jelszo))
+            {
+                l=true;
+            }
+        }
+        return l;
+    }
+    private boolean nevEllenoriz(String nev){
         SQLiteDatabase db= this.getWritableDatabase();
-       // db.rawQuery("SELECT * FROM "+TANULO_TABLE+" WHERE nev =?",new String[]{nev});
+        Cursor result= db.rawQuery("SELECT COUNT(*) FROM "+USER_TABLE+" WHERE "+COL_FELNEV+" = ?",new String[]{nev});
+        result.moveToFirst();
+        return result.getInt(0)==1;
+    }
+    private boolean emeilEllenoriz(String nev){
+        SQLiteDatabase db= this.getWritableDatabase();
+        Cursor result= db.rawQuery("SELECT COUNT(*) FROM "+USER_TABLE+" WHERE "+COL_FELNEV+" = ?",new String[]{nev});
+        result.moveToFirst();
+        return result.getInt(0)==1;
+    }
+    public Cursor adatLekerdezes(){
+
+        SQLiteDatabase db= this.getWritableDatabase();
+
 
         return db.query(USER_TABLE,new String[]{COL_ID,COL_EMAIL,COL_FELNEV,COL_JELSZO,COL_FULLNAME},
                 null,null,null,null,null);
