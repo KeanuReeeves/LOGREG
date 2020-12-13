@@ -58,6 +58,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return result!=-1;
     }
 
+
+
     public Cursor adatLekerdezes(){
       //  String nev="' 1 = 1 -- ";
         SQLiteDatabase db= this.getWritableDatabase();
